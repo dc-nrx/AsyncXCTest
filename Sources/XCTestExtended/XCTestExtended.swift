@@ -9,20 +9,12 @@ extension XCTestCase {
 		file: StaticString = #filePath,
 		line: UInt = #line
 	) {
-		asyncTest(interval: timeout) {
-			XCTAssert(try expression(), message(), file: file, line: line)
-		}
-	}
-
-	private func asyncTest(
-		interval: TimeInterval = 3,
-		test: @escaping () throws -> ()
-	) {
-		let expectation = expectation(description: "Wait for \(interval) seconds")
-		DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
-			try! test()
+		let expectation = expectation(description: "Wait for \(timeout) seconds")
+		DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
+			try! XCTAssert(expression(), message(), file: file, line: line)
 			expectation.fulfill()
 		}
-		waitForExpectations(timeout: interval + 0.2)
+		waitForExpectations(timeout: timeout + 0.2)
 	}
+
 }
