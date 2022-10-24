@@ -1,13 +1,5 @@
 import XCTest
 
-public struct Defaults {
-
-	public static let asyncTimeout: TimeInterval = 3
-	public static let asyncRepeatFrequency = 0.1
-	public static let waitForExpectationExtraDuration = 0.1
-
-}
-
 extension XCTestCase {
 
 	/**
@@ -24,19 +16,19 @@ extension XCTestCase {
 		file: StaticString = #filePath,
 		line: UInt = #line
 	) {
-		let expectation = expectation(description: "Wait for \(timeout) seconds")
-		// Repeated evaluations
-		if let repeatFrequency = repeatFrequency,
-		   repeatFrequency < timeout {
-			let _ = Timer(fire: Date() + repeatFrequency, interval: repeatFrequency, repeats: true) { _ in
-				if (try? expression()) == true {
-					expectation.fulfill()
-				}
-			}
+		asyncAssertScheduler(timeout: timeout, condition: try expression()) {
+			XCTAssert(try expression(), message(), file: file, line: line)
 		}
-		// Evaluation after timeout
+	}
+
+	private func asyncAssertScheduler(
+		timeout: TimeInterval,
+		condition: @escaping @autoclosure () throws -> Bool,
+		assertClosure: @escaping () throws -> ()
+	) {
+		let expectation = expectation(description: "Wait for \(timeout) seconds")
 		DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
-			try! XCTAssert(expression(), message(), file: file, line: line)
+			try! assertClosure()
 			expectation.fulfill()
 		}
 		waitForExpectations(timeout: timeout + Defaults.waitForExpectationExtraDuration)
@@ -47,14 +39,12 @@ extension XCTestCase {
 	 */
 	public func waitUntil(
 		timeout: TimeInterval = Defaults.asyncTimeout,
-//		file: StaticString = #file,
-//		line: UInt = #line,
 		action: @escaping (@escaping () -> Void) -> Void
 	) {
 		let expectation = expectation(description: "Wait for \(timeout) seconds")
 		action(expectation.fulfill)
 		waitForExpectations(timeout: timeout)
-		
+
 	}
 
 	public func fail(
