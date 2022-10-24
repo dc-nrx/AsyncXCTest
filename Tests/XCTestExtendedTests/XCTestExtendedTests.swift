@@ -7,15 +7,7 @@ final class AsyncAssertSpec: XCTestCase {
 	private let timeout: TimeInterval = 3
 	private let repeatFrequency: TimeInterval = 0.05
 
-	func testAsyncAssertDispatchAfter() {
-		var i = 1
-		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-			self.change(&i, to: 2)
-		}
-		xeAsyncAssert(i == 2, timeout: timeout, repeatFrequency: nil)
-	}
-
-	func testTimeoutDispatchAfter() {
+	func testAssertDispatchAfter() {
         var i = 1
 		let startDate = Date()
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -26,11 +18,34 @@ final class AsyncAssertSpec: XCTestCase {
 		XCTAssertLessThan(Date().timeIntervalSince(startDate), timeout + eps)
     }
 
-	func testSyncChange() {
+	func testAssertSyncChange() {
 		var i = 1
 		let startDate = Date()
 		self.change(&i, to: 3)
 		xeAsyncAssert(i == 3, timeout: timeout, repeatFrequency: nil)
+		XCTAssertGreaterThan(Date().timeIntervalSince(startDate), timeout - eps)
+		XCTAssertLessThan(Date().timeIntervalSince(startDate), timeout + eps)
+	}
+
+	func testAssertEqualDispatchAfter() {
+		var i = 1
+		let b = 4
+		let startDate = Date()
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+			self.change(&i, to: b)
+		}
+		xeAsyncAssertEqual(i, b, timeout: timeout)
+		XCTAssertGreaterThan(Date().timeIntervalSince(startDate), timeout - eps)
+		XCTAssertLessThan(Date().timeIntervalSince(startDate), timeout + eps)
+	}
+
+	func testAssertTrueDispatchAfter() {
+		var i = 1
+		let startDate = Date()
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+			self.change(&i, to: 2)
+		}
+		xeAsyncAssertTrue(i == 2, timeout: timeout, repeatFrequency: nil)
 		XCTAssertGreaterThan(Date().timeIntervalSince(startDate), timeout - eps)
 		XCTAssertLessThan(Date().timeIntervalSince(startDate), timeout + eps)
 	}
