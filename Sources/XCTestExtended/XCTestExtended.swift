@@ -57,22 +57,22 @@ extension XCTestCase {
 	/**
 	 A handy wrapper for an expectation
 	 */
-	public func waitUntil(
-		timeout: TimeInterval = Defaults.asyncTimeout,
-		action: @escaping (@escaping () -> Void) -> Void
-	) {
-		let expectation = expectation(description: "Wait for \(timeout) seconds")
-		action(expectation.fulfill)
-		waitForExpectations(timeout: timeout)
-
-	}
-
-	public func fail(
-		file: StaticString = #filePath,
-		line: UInt = #line
-	) {
-		XCTFail(file: file, line: line)
-	}
+//	public func waitUntil(
+//		timeout: TimeInterval = Defaults.asyncTimeout,
+//		action: @escaping (@escaping () -> Void) -> Void
+//	) {
+//		let expectation = expectation(description: "Wait for \(timeout) seconds")
+//		action(expectation.fulfill)
+//		waitForExpectations(timeout: timeout)
+//
+//	}
+//
+//	public func fail(
+//		file: StaticString = #filePath,
+//		line: UInt = #line
+//	) {
+//		XCTFail(file: file, line: line)
+//	}
 
 	private func asyncAssertScheduler(
 		timeout: TimeInterval,
