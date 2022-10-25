@@ -4,7 +4,7 @@ import XCTest
  A proxy method to execute `XCTAssert` after given `timeout`. Other parameters are forwarded to `XCTAssert` call as is.
  - Parameter timeout: How long to wait until `expression` becomes `true`.
  */
-public func xeAsyncAssert(
+public func asyncAssert(
     _ expression: @escaping @autoclosure () throws -> Bool,
     _ message: @escaping @autoclosure () -> String = "",
     timeout: TimeInterval = Defaults.asyncTimeout,
@@ -21,7 +21,7 @@ public func xeAsyncAssert(
  A proxy method to execute `XCTAssertEqual` after given `timeout`. Other parameters are forwarded to `XCTAssertEqual` call as is.
  - Parameter timeout: How long to wait until `expression` becomes `true`.
  */
-public func xeAsyncAssertEqual<T: Equatable>(
+public func asyncAssertEqual<T: Equatable>(
     _ expression1: @escaping @autoclosure () throws -> T,
     _ expression2: @escaping @autoclosure () throws -> T,
     _ message: @escaping @autoclosure () -> String = "",
@@ -39,7 +39,7 @@ public func xeAsyncAssertEqual<T: Equatable>(
  A proxy method to execute `XCTAssertTrue` after given `timeout`. Other parameters are forwarded to `XCTAssertTrue` call as is.
  - Parameter timeout: How long to wait until `expression` becomes `true`.
  */
-public func xeAsyncAssertTrue(
+public func asyncAssertTrue(
     _ expression: @escaping @autoclosure () throws -> Bool,
     _ message: @escaping @autoclosure () -> String = "",
     timeout: TimeInterval = Defaults.asyncTimeout,
