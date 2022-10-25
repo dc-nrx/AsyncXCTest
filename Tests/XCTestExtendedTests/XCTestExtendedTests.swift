@@ -1,5 +1,5 @@
 import XCTest
-@testable import XCTestExtended
+@testable import AsyncXCTest
 
 final class AsyncAssertSpec: XCTestCase {
 
