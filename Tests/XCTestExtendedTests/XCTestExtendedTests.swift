@@ -13,7 +13,7 @@ final class AsyncAssertSpec: XCTestCase {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 			self.change(&i, to: 2)
 		}
-		asyncAssert(i == 2, timeout: timeout, repeatFrequency: nil)
+		asyncAssert(i == 2, timeout: timeout)
 		XCTAssertGreaterThan(Date().timeIntervalSince(startDate), timeout - eps)
 		XCTAssertLessThan(Date().timeIntervalSince(startDate), timeout + eps)
     }
@@ -22,7 +22,7 @@ final class AsyncAssertSpec: XCTestCase {
 		var i = 1
 		let startDate = Date()
 		self.change(&i, to: 3)
-		asyncAssert(i == 3, timeout: timeout, repeatFrequency: nil)
+		asyncAssert(i == 3, timeout: timeout)
 		XCTAssertGreaterThan(Date().timeIntervalSince(startDate), timeout - eps)
 		XCTAssertLessThan(Date().timeIntervalSince(startDate), timeout + eps)
 	}
@@ -45,7 +45,7 @@ final class AsyncAssertSpec: XCTestCase {
 		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 			self.change(&i, to: 2)
 		}
-		asyncAssertTrue(i == 2, timeout: timeout, repeatFrequency: nil)
+		asyncAssertTrue(i == 2, timeout: timeout)
 		XCTAssertGreaterThan(Date().timeIntervalSince(startDate), timeout - eps)
 		XCTAssertLessThan(Date().timeIntervalSince(startDate), timeout + eps)
 	}

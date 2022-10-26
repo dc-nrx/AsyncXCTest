@@ -8,7 +8,6 @@ public func asyncAssert(
     _ expression: @escaping @autoclosure () throws -> Bool,
     _ message: @escaping @autoclosure () -> String = "",
     timeout: TimeInterval = Defaults.asyncTimeout,
-    repeatFrequency: TimeInterval? = Defaults.asyncRepeatFrequency,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
@@ -26,7 +25,6 @@ public func asyncAssertEqual<T: Equatable>(
     _ expression2: @escaping @autoclosure () throws -> T,
     _ message: @escaping @autoclosure () -> String = "",
     timeout: TimeInterval = Defaults.asyncTimeout,
-    repeatFrequency: TimeInterval? = Defaults.asyncRepeatFrequency,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
@@ -44,7 +42,6 @@ public func asyncAssertIdenticalTo<T: AnyObject>(
     _ expression2: @escaping @autoclosure () throws -> T,
     _ message: @escaping @autoclosure () -> String = "",
     timeout: TimeInterval = Defaults.asyncTimeout,
-    repeatFrequency: TimeInterval? = Defaults.asyncRepeatFrequency,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
@@ -61,12 +58,43 @@ public func asyncAssertTrue(
     _ expression: @escaping @autoclosure () throws -> Bool,
     _ message: @escaping @autoclosure () -> String = "",
     timeout: TimeInterval = Defaults.asyncTimeout,
-    repeatFrequency: TimeInterval? = Defaults.asyncRepeatFrequency,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
     asyncAssertScheduler(timeout: timeout) {
         XCTAssertTrue(try expression(), message(), file: file, line: line)
+    }
+}
+
+/**
+ A proxy method to execute `XCTAssertFalse` after given `timeout`. Other parameters are forwarded to `XCTAssertFalse` call as is.
+ - Parameter timeout: How long to wait until `expression` becomes `true`.
+ */
+public func asyncAssertFalse(
+    _ expression: @escaping @autoclosure () throws -> Bool,
+    _ message: @escaping @autoclosure () -> String = "",
+    timeout: TimeInterval = Defaults.asyncTimeout,
+    file: StaticString = #filePath,
+    line: UInt = #line
+) {
+    asyncAssertScheduler(timeout: timeout) {
+        XCTAssertFalse(try expression(), message(), file: file, line: line)
+    }
+}
+
+/**
+ A proxy method to execute `XCTAssertNil` after given `timeout`. Other parameters are forwarded to `XCTAssertNil` call as is.
+ - Parameter timeout: How long to wait until `expression` becomes `true`.
+ */
+public func asyncAssertNil(
+    _ expression: @escaping @autoclosure () throws -> Bool,
+    _ message: @escaping @autoclosure () -> String = "",
+    timeout: TimeInterval = Defaults.asyncTimeout,
+    file: StaticString = #filePath,
+    line: UInt = #line
+) {
+    asyncAssertScheduler(timeout: timeout) {
+        XCTAssertNil(try expression(), message(), file: file, line: line)
     }
 }
 
