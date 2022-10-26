@@ -87,7 +87,7 @@ public func asyncAssertFalse(
  - Parameter timeout: How long to wait until `expression` becomes `true`.
  */
 public func asyncAssertNil(
-    _ expression: @escaping @autoclosure () throws -> Bool,
+    _ expression: @escaping @autoclosure () throws -> Any?,
     _ message: @escaping @autoclosure () -> String = "",
     timeout: TimeInterval = Defaults.asyncTimeout,
     file: StaticString = #filePath,
