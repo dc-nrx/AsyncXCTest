@@ -71,14 +71,14 @@ public func asyncAssertTrue(
  - Parameter timeout: How long to wait until `expression` becomes `true`.
  */
 public func asyncAssertFalse(
-    _ expression: @escaping @autoclosure () throws -> Bool,
+    _ expression: @escaping @autoclosure () throws -> Bool?,
     _ message: @escaping @autoclosure () -> String = "",
     timeout: TimeInterval = Defaults.asyncTimeout,
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
     asyncAssertScheduler(timeout: timeout) {
-        XCTAssertFalse(try expression(), message(), file: file, line: line)
+        XCTAssertFalse(try expression() ?? false, message(), file: file, line: line)
     }
 }
 
