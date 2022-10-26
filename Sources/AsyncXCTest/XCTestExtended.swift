@@ -21,8 +21,8 @@ public func asyncAssert(
  - Parameter timeout: How long to wait until `expression` becomes `true`.
  */
 public func asyncAssertEqual<T: Equatable>(
-    _ expression1: @escaping @autoclosure () throws -> T,
-    _ expression2: @escaping @autoclosure () throws -> T,
+    _ expression1: @escaping @autoclosure () throws -> T?,
+    _ expression2: @escaping @autoclosure () throws -> T?,
     _ message: @escaping @autoclosure () -> String = "",
     timeout: TimeInterval = Defaults.asyncTimeout,
     file: StaticString = #filePath,
@@ -38,8 +38,8 @@ public func asyncAssertEqual<T: Equatable>(
  - Parameter timeout: How long to wait until `expression` becomes `true`.
  */
 public func asyncAssertIdenticalTo<T: AnyObject>(
-    _ expression1: @escaping @autoclosure () throws -> T,
-    _ expression2: @escaping @autoclosure () throws -> T,
+    _ expression1: @escaping @autoclosure () throws -> T?,
+    _ expression2: @escaping @autoclosure () throws -> T?,
     _ message: @escaping @autoclosure () -> String = "",
     timeout: TimeInterval = Defaults.asyncTimeout,
     file: StaticString = #filePath,
