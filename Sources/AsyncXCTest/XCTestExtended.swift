@@ -37,9 +37,9 @@ public func asyncAssertEqual<T: Equatable>(
  A proxy method to execute `XCTAssertIdentical` after given `timeout`. Other parameters are forwarded to `XCTAssertIdentical` call as is.
  - Parameter timeout: How long to wait until `expression` becomes `true`.
  */
-public func asyncAssertIdenticalTo<T: AnyObject>(
-    _ expression1: @escaping @autoclosure () throws -> T?,
-    _ expression2: @escaping @autoclosure () throws -> T?,
+public func asyncAssertIdenticalTo(
+    _ expression1: @escaping @autoclosure () throws -> AnyObject?,
+    _ expression2: @escaping @autoclosure () throws -> AnyObject?,
     _ message: @escaping @autoclosure () -> String = "",
     timeout: TimeInterval = Defaults.asyncTimeout,
     file: StaticString = #filePath,
