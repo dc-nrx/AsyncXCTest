@@ -12,7 +12,7 @@ public func asyncAssert(
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    asyncAssertScheduler(timeout: timeout, condition: try expression()) {
+    asyncAssertScheduler(timeout: timeout) {
         XCTAssert(try expression(), message(), file: file, line: line)
     }
 }
@@ -30,8 +30,26 @@ public func asyncAssertEqual<T: Equatable>(
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    asyncAssertScheduler(timeout: timeout, condition: try expression1() == expression2()) {
+    asyncAssertScheduler(timeout: timeout) {
         XCTAssertEqual(try expression1(), try expression2(), message(), file: file, line: line)
+    }
+}
+
+/**
+ A proxy method to execute `XCTAssertIdentical` after given `timeout`. Other parameters are forwarded to `XCTAssertIdentical` call as is.
+ - Parameter timeout: How long to wait until `expression` becomes `true`.
+ */
+public func asyncAssertEqual<T: AnyObject>(
+    _ expression1: @escaping @autoclosure () throws -> T,
+    _ expression2: @escaping @autoclosure () throws -> T,
+    _ message: @escaping @autoclosure () -> String = "",
+    timeout: TimeInterval = Defaults.asyncTimeout,
+    repeatFrequency: TimeInterval? = Defaults.asyncRepeatFrequency,
+    file: StaticString = #filePath,
+    line: UInt = #line
+) {
+    asyncAssertScheduler(timeout: timeout) {
+        XCTAssertIdentical(try expression1(), try expression2(), message(), file: file, line: line)
     }
 }
 
@@ -47,7 +65,7 @@ public func asyncAssertTrue(
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    asyncAssertScheduler(timeout: timeout, condition: try expression()) {
+    asyncAssertScheduler(timeout: timeout) {
         XCTAssertTrue(try expression(), message(), file: file, line: line)
     }
 }
@@ -74,7 +92,6 @@ public func asyncAssertTrue(
 
 private func asyncAssertScheduler(
     timeout: TimeInterval,
-    condition: @escaping @autoclosure () throws -> Bool,
     assertClosure: @escaping () throws -> ()
 ) {
     let expectation = XCTestExpectation(description: "Wait for \(timeout) seconds") //expectation(description: "Wait for \(timeout) seconds")
