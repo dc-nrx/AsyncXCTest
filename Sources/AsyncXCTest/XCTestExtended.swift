@@ -101,28 +101,27 @@ public func asyncAssertNil(
 /**
  A handy wrapper for an expectation
  */
-//	public func waitUntil(
-//		timeout: TimeInterval = Defaults.asyncTimeout,
-//		action: @escaping (@escaping () -> Void) -> Void
-//	) {
-//		let expectation = expectation(description: "Wait for \(timeout) seconds")
-//		action(expectation.fulfill)
-//		waitForExpectations(timeout: timeout)
-//
-//	}
-//
-//	public func fail(
-//		file: StaticString = #filePath,
-//		line: UInt = #line
-//	) {
-//		XCTFail(file: file, line: line)
-//	}
+public func waitUntil(
+    timeout: TimeInterval = Defaults.asyncTimeout,
+    action: @escaping (@escaping () -> Void) -> Void
+) {
+    let expectation = XCTestExpectation(description: "Wait for \(timeout) seconds")
+    action(expectation.fulfill)
+    _ = XCTWaiter.wait(for: [expectation], timeout: timeout + Defaults.waitForExpectationExtraDuration)
+}
+
+public func fail(
+    file: StaticString = #filePath,
+    line: UInt = #line
+) {
+    XCTFail(file: file, line: line)
+}
 
 private func asyncAssertScheduler(
     timeout: TimeInterval,
     assertClosure: @escaping () throws -> ()
 ) {
-    let expectation = XCTestExpectation(description: "Wait for \(timeout) seconds") //expectation(description: "Wait for \(timeout) seconds")
+    let expectation = XCTestExpectation(description: "Wait for \(timeout) seconds")
     DispatchQueue.main.asyncAfter(deadline: .now() + timeout) {
         try! assertClosure()
         expectation.fulfill()
