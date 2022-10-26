@@ -99,6 +99,22 @@ public func asyncAssertNil(
 }
 
 /**
+ A proxy method to execute `XCTAssertNotNil` after given `timeout`. Other parameters are forwarded to `XCTAssertNotNil` call as is.
+ - Parameter timeout: How long to wait until `expression` becomes `true`.
+ */
+public func asyncAssertNotNil(
+    _ expression: @escaping @autoclosure () throws -> Any?,
+    _ message: @escaping @autoclosure () -> String = "",
+    timeout: TimeInterval = Defaults.asyncTimeout,
+    file: StaticString = #filePath,
+    line: UInt = #line
+) {
+    asyncAssertScheduler(timeout: timeout) {
+        XCTAssertNotNil(try expression(), message(), file: file, line: line)
+    }
+}
+
+/**
  A handy wrapper for an expectation
  */
 public func waitUntil(
