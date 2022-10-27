@@ -11,7 +11,7 @@ public func asyncAssert(
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    asyncAssertScheduler(timeout: timeout) {
+    scheduleDelayedAssert(timeout: timeout) {
         XCTAssert(try expression(), message(), file: file, line: line)
     }
 }
@@ -28,7 +28,7 @@ public func asyncAssertEqual<T: Equatable>(
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    asyncAssertScheduler(timeout: timeout) {
+    scheduleDelayedAssert(timeout: timeout) {
         XCTAssertEqual(try expression1(), try expression2(), message(), file: file, line: line)
     }
 }
@@ -45,7 +45,7 @@ public func asyncAssertIdenticalTo(
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    asyncAssertScheduler(timeout: timeout) {
+    scheduleDelayedAssert(timeout: timeout) {
         XCTAssertIdentical(try expression1(), try expression2(), message(), file: file, line: line)
     }
 }
@@ -61,7 +61,7 @@ public func asyncAssertTrue(
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    asyncAssertScheduler(timeout: timeout) {
+    scheduleDelayedAssert(timeout: timeout) {
         XCTAssertTrue(try expression() ?? false, message(), file: file, line: line)
     }
 }
@@ -77,7 +77,7 @@ public func asyncAssertFalse(
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    asyncAssertScheduler(timeout: timeout) {
+    scheduleDelayedAssert(timeout: timeout) {
         XCTAssertFalse(try expression() ?? false, message(), file: file, line: line)
     }
 }
@@ -93,7 +93,7 @@ public func asyncAssertNil(
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    asyncAssertScheduler(timeout: timeout) {
+    scheduleDelayedAssert(timeout: timeout) {
         XCTAssertNil(try expression(), message(), file: file, line: line)
     }
 }
@@ -109,7 +109,7 @@ public func asyncAssertNotNil(
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    asyncAssertScheduler(timeout: timeout) {
+    scheduleDelayedAssert(timeout: timeout) {
         XCTAssertNotNil(try expression(), message(), file: file, line: line)
     }
 }
@@ -133,7 +133,11 @@ public func fail(
     XCTFail(file: file, line: line)
 }
 
-private func asyncAssertScheduler(
+public func success() { }
+
+//MARK: - Private
+
+public func scheduleDelayedAssert(
     timeout: TimeInterval,
     assertClosure: @escaping () throws -> ()
 ) {
