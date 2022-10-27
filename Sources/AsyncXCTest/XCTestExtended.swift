@@ -133,12 +133,10 @@ public func fail(
     XCTFail(file: file, line: line)
 }
 
-public func succeed() { }
-
 //MARK: - Private
 
 public func scheduleDelayedAssert(
-    timeout: TimeInterval,
+    timeout: TimeInterval = Defaults.asyncTimeout,
     assertClosure: @escaping () throws -> ()
 ) {
     let expectation = XCTestExpectation(description: "Wait for \(timeout) seconds")
