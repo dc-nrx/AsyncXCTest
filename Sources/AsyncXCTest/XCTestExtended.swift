@@ -127,10 +127,11 @@ public func waitUntil(
 }
 
 public func fail(
+    _ message: @escaping @autoclosure () -> String = "",
     file: StaticString = #filePath,
     line: UInt = #line
 ) {
-    XCTFail(file: file, line: line)
+    XCTFail(message(), file: file, line: line)
 }
 
 //MARK: - Private
