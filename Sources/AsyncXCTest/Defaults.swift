@@ -9,9 +9,9 @@ import Foundation
 
 public struct Defaults {
 
-	public static let asyncTimeout: TimeInterval = 3
-	public static let asyncRepeatFrequency: TimeInterval = 0.1
-	public static let waitForExpectationExtraDuration: TimeInterval = 0.1
+	public static var asyncTimeout: TimeInterval = 3
+	public static var asyncRepeatFrequency: TimeInterval = 0.1
+	public static var waitForExpectationExtraDuration: TimeInterval = 0.1
 
 }
 
