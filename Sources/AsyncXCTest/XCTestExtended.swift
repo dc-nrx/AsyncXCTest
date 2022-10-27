@@ -133,7 +133,7 @@ public func fail(
     XCTFail(file: file, line: line)
 }
 
-public func success() { }
+public func succeed() { }
 
 //MARK: - Private
 
